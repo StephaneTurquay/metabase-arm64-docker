@@ -14,6 +14,7 @@
 **Pre-requisite**
 - [Install Docker Desktop for Mac](https://docs.docker.com/desktop/install/mac-install/). Ensure to have Docker Desktop for Mac with Apple silicon installed and running in the background.
 
+## Quick install
 **Clone this repository into your project's folder**
 
 In a terminal window, navigate to your project's folder and clone this repository
@@ -21,11 +22,26 @@ In a terminal window, navigate to your project's folder and clone this repositor
 git clone https://github.com/StephaneTurquay/metabase-arm64-docker.git
 ```
 
+  
 **Pull the metabase-arm64 Docker image**
 ```
 docker pull stephaneturquay/metabase-arm64
 ```
 
+**Run the Docker image, create and start the container**
+
+```
+docker compose up metabase -d
+```
+> [!NOTE]
+> The `-d` flag stands for "detached" mode. This means that the Docker container runs in the background of your terminal. It does not receive input or display output, allowing you to continue using the terminal while Metabase is running.
+
+**Access Metabase from your browser**
+```
+http://localhost:3000/
+```
+> [!NOTE]
+> By default, Metabase runs on port 3000. If you have configured Metabase to run on a different port, make sure to adjust the URL accordingly.
 
 # Bonus: How to run Metabase & PostgreSQL with Docker on ARM64 🎉
 
