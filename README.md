@@ -11,7 +11,7 @@
 
 # How to run Metabase with Docker on ARM64 💻
 
-**Pre-requisite**
+## Pre-requisite
 - [Install Docker Desktop for Mac](https://docs.docker.com/desktop/install/mac-install/). Ensure to have Docker Desktop for Mac with Apple silicon installed and running in the background.
 
 ## Quick install
