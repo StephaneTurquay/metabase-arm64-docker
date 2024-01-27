@@ -44,5 +44,3 @@ http://localhost:3000/
 > By default, Metabase runs on port 3000. If you have configured Metabase to run on a different port, make sure to adjust the URL accordingly.
 
 # Bonus: How to run Metabase & PostgreSQL with Docker on ARM64 🎉
-
-`docker pull stephaneturquay/metabase-arm64`
