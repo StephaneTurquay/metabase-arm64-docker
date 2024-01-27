@@ -13,7 +13,7 @@
 
 **Pre-requisite**
 - [Install Docker Desktop for Mac](https://docs.docker.com/desktop/install/mac-install/). Ensure to have Docker Desktop for Mac with Apple silicon installed and running in the background.
-- 
+
 **Clone this repository into your project's folder**
 
 In a terminal window, navigate to your project's folder and clone this repository
