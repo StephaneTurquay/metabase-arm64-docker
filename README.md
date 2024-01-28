@@ -58,7 +58,7 @@ docker pull stephaneturquay/metabase-arm64
 ```
 
 ### Define the port where Metabase will be accessible
-If you need to switch from the default port 3000 to another port, such as port 4000, simply edit the [docker-compose.yml](docker-compose.yml) file in your preferred IDE, like Visual Studio Code. Change the line "${PORT:-3000}:3000" to "${PORT:-4000}:4000" to make Metabase accessible on the new port.
+If you need to switch from the default port 3000 to another port, such as port 4000, simply edit the [docker-compose.yml](docker-compose.yml) file in your preferred IDE, like Visual Studio Code. Change the line `"${PORT:-3000}:3000"` to `"${PORT:-4000}:4000"` to make Metabase accessible on the new port.
 
 
 # Bonus: How to run Metabase & PostgreSQL with Docker on ARM64 🎉
