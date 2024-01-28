@@ -42,4 +42,23 @@ http://localhost:3000/
 > [!NOTE]
 > By default, Metabase runs on port 3000. If you have configured Metabase to run on a different port, make sure to adjust the URL accordingly.
 
+## Install using custom settings
+In the Quick Install section, we set up Metabase to run on port 3000 using a local H2 database. This setup is great for initial exploration, but it's important to note that the H2 database is primarily for trial purposes. It stores all your settings, questions, and dashboards, but isn't recommended for production use due to its limitations in scalability and durability. For more insights on why migrating from H2 is crucial for production environments, [check out this detailed guide on Metabase.com](https://www.metabase.com/docs/latest/installation-and-operation/migrating-from-h2).
+
+### Clone this repository into your project's folder
+
+In a terminal window, navigate to your project's folder and clone this repository
+```
+git clone https://github.com/StephaneTurquay/metabase-arm64-docker.git
+```
+ 
+### Pull the metabase-arm64 Docker image
+```
+docker pull stephaneturquay/metabase-arm64
+```
+
+### Define the port where Metabase will be accessible
+If you need to switch from the default port 3000 to another port, such as port 4000, simply edit the [docker-compose.yml](docker-compose.yml) file in your preferred IDE, like Visual Studio Code. Change the line "${PORT:-3000}:3000" to "${PORT:-4000}:4000" to make Metabase accessible on the new port.
+
+
 # Bonus: How to run Metabase & PostgreSQL with Docker on ARM64 🎉
