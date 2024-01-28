@@ -108,4 +108,52 @@ docker compose up metabase -d
 http://localhost:4000/
 ```
 
-<!-- # Bonus: How to run Metabase & PostgreSQL with Docker on ARM64 🎉 -->
+# Bonus: How to run Metabase & PostgreSQL with Docker on ARM64 🎉
+
+For testing and cost purposes, you might want to run both Metabase and PostgreSQL locally. To do so, start by uncommenting all comments in [docker-compose.yml](docker-compose.yml):
+
+```yml
+version: '3.8'
+services:
+  metabase:
+    image: stephaneturquay/metabase-arm64:latest
+    ports:
+      - "${PORT:-3000}:${PORT:-3000}"
+    environment:
+      MB_JETTY_PORT: "${PORT:-3000}"
+      MB_DB_TYPE: "${DB_TYPE:-postgres}"
+      MB_DB_DBNAME: "${DB_NAME:-metabaseappdb}"
+      MB_DB_PORT: "${DB_PORT:-5432}"
+      MB_DB_USER: "${DB_USER:-myuser}"
+      MB_DB_PASS: "${DB_PASS:-mypassword}"
+      MB_DB_HOST: "${DB_HOST:-db}"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: metabaseappdb
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:
+```
+
+### Run the Docker image, create and start the container
+
+This command will run both Metabase and PostgreSQL.
+
+```
+docker compose up metabase -d
+```
+
+> [!NOTE]
+> - **Database Host:** Use db as the hostname. This refers to the PostgreSQL service defined in the docker-compose.yml, ensuring proper networking within Docker.
+> - **Database Name:** By default, the PostgreSQL container initializes with a pre-configured database named `postgres`. It's recommended to use this database for storing your data.
+> - **User Credentials:** Specify the username and password as defined in your docker-compose.yml file. These credentials are necessary for Metabase to establish a successful connection with the PostgreSQL database.
