@@ -105,7 +105,7 @@ docker compose up metabase -d
 
 ### Access Metabase from your browser
 ```
-http://localhost:3000/
+http://localhost:4000/
 ```
 
 <!-- # Bonus: How to run Metabase & PostgreSQL with Docker on ARM64 🎉 -->
