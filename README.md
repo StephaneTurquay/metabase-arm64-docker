@@ -33,14 +33,14 @@ docker pull stephaneturquay/metabase-arm64
 docker compose up metabase -d
 ```
 > [!NOTE]
-> The `-d` flag stands for "detached" mode. This means that the Docker container runs in the background of your terminal. It does not receive input or display output, allowing you to continue using the terminal while Metabase is running.
+> The `-d` flag stands for "detached" mode. This means that the Docker container runs in the background of your terminal. It does not receive input or display output, allowing you to continue using the terminal while Metabase runs.
 
 ### Access Metabase from your browser
 ```
 http://localhost:3000/
 ```
 > [!NOTE]
-> By default, Metabase runs on port 3000. If you have configured Metabase to run on a different port, make sure to adjust the URL accordingly.
+> By default, Metabase runs on port 3000. If you have set up Metabase to run on a different port, make sure to adjust the URL accordingly.
 
 ## Install using custom settings
 In the Quick Install section, we set up Metabase to run on port 3000 using a local H2 database. This setup is great for initial exploration, but it's important to note that the H2 database is primarily for trial purposes. It stores all your settings, questions, and dashboards, but isn't recommended for production use due to its limitations in scalability and durability. For more insights on why migrating from H2 is crucial for production environments, [check out this detailed guide on Metabase.com](https://www.metabase.com/docs/latest/installation-and-operation/migrating-from-h2).
@@ -58,7 +58,7 @@ docker pull stephaneturquay/metabase-arm64
 ```
 
 ### Define the port where Metabase will be accessible
-If you need to switch from the default port 3000 to another port, such as port 4000, simply edit the [docker-compose.yml](docker-compose.yml) file in your preferred IDE, like Visual Studio Code, and update the code as follow:
+If you need to switch from the default port 3000 to another port, such as port 4000, edit the [docker-compose.yml](docker-compose.yml) file in your preferred IDE, like Visual Studio Code, and update the code as follows:
 ```yml
 version: '3.8'
 services:
@@ -70,5 +70,42 @@ services:
       MB_JETTY_PORT: "${PORT:-4000}"
 ```
 
+### Use PostgreSQL, MySQL, or MariaDB to store Metabase's application settings
+**Pre-requisite:** Ensure you have a running instance of PostgreSQL, MySQL, or MariaDB and possess the necessary credentials. You can find the minimum requirements and supported databases for Metabase here.
 
-# Bonus: How to run Metabase & PostgreSQL with Docker on ARM64 🎉
+**Configuration Steps:**
+1. Prepare Your Database Details: Gather the necessary information about your database — type, name, port, user, password, and host.
+2. Edit docker-compose.yml: Open the docker-compose.yml file in your preferred IDE. You will be updating this file with your database information.
+3. Update Database Settings: Locate the environment section under the metabase service. Replace the placeholder values with your actual database details. For `MB_DB_TYPE`, use `postgres`, `mysql`, or `mariadb`, depending on your database.
+
+Here's an example configuration for PostgreSQL, building up on the example from the previous step:
+
+```yml
+version: '3.8'
+services:
+  metabase:
+    image: stephaneturquay/metabase-arm64:latest
+    ports:
+      - "${PORT:-4000}:${PORT:-4000}"
+    environment:
+      MB_JETTY_PORT: "${PORT:-4000}"
+      MB_DB_TYPE: "${DB_TYPE:-postgres}" # Change to mysql or mariadb as needed
+      MB_DB_DBNAME: "${DB_NAME:-mydatabase}"
+      MB_DB_PORT: "${DB_PORT:-5432}" # Adjust the port for MySQL/MariaDB
+      MB_DB_USER: "${DB_USER:-myuser}"
+      MB_DB_PASS: "${DB_PASS:-mypassword}"
+      MB_DB_HOST: "${DB_HOST:-localhost}"
+```
+
+### Run the Docker image, create and start the container
+
+```
+docker compose up metabase -d
+```
+
+### Access Metabase from your browser
+```
+http://localhost:3000/
+```
+
+<!-- # Bonus: How to run Metabase & PostgreSQL with Docker on ARM64 🎉 -->
