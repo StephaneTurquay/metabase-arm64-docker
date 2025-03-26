@@ -1,0 +1,61 @@
+name: Check and Build Metabase ARM64
+
+on:
+  schedule:
+    - cron: "0 * * * *" # Every hour
+  workflow_dispatch:
+
+jobs:
+  check-build-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get latest Metabase version
+        id: get_version
+        run: |
+          echo "Fetching latest Metabase release from GitHub..."
+          latest=$(curl -s https://api.github.com/repos/metabase/metabase/releases/latest | jq -r .tag_name)
+          echo "Latest Metabase version: $latest"
+          echo "version=$latest" >> $GITHUB_OUTPUT
+
+      - name: Check if Docker tag already exists
+        id: check_docker
+        run: |
+          TAG=${{ steps.get_version.outputs.version }}
+          echo "Checking if Docker tag $TAG exists..."
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://hub.docker.com/v2/repositories/stephaneturquay/metabase-arm64/tags/$TAG)
+          echo "HTTP Status: $STATUS"
+          if [ "$STATUS" -eq 200 ]; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Output result
+        run: |
+          echo "Docker tag exists? ${{ steps.check_docker.outputs.exists }}"
+
+      - name: Docker Login
+        if: steps.check_docker.outputs.exists == 'false'
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and Push Docker image
+        if: steps.check_docker.outputs.exists == 'false'
+        run: |
+          TAG=${{ steps.get_version.outputs.version }}
+          IMAGE=stephaneturquay/metabase-arm64
+
+          echo "🔧 Building image with tag $TAG..."
+          docker build --build-arg METABASE_VERSION=$TAG -t $IMAGE:$TAG .
+
+          echo "🚀 Pushing $TAG..."
+          docker push $IMAGE:$TAG
+
+          echo "🏷️ Tagging as latest..."
+          docker tag $IMAGE:$TAG $IMAGE:latest
+
+          echo "🚀 Pushing latest..."
+          docker push $IMAGE:latest
