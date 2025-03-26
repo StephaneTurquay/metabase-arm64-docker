@@ -1,0 +1,21 @@
+name: Check Latest Metabase Version
+
+on:
+  schedule:
+    - cron: "0 * * * *" # Every hour
+  workflow_dispatch:     # Manual run
+
+jobs:
+  check-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get latest Metabase version
+        id: get_version
+        run: |
+          echo "Fetching latest Metabase release from GitHub..."
+          latest=$(curl -s https://api.github.com/repos/metabase/metabase/releases/latest | jq -r .tag_name)
+          echo "Latest Metabase version: $latest"
+          echo "version=$latest" >> $GITHUB_OUTPUT
+
+      - name: Output version
+        run: echo "Latest Metabase version is ${{ steps.get_version.outputs.version }}"
