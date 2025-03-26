@@ -1,4 +1,3 @@
-version: '3.8'
 services:
   metabase:
     image: stephaneturquay/metabase-arm64:latest
