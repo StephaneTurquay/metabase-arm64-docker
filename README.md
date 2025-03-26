@@ -2,7 +2,7 @@
 
 #### ![ChatGPT_logo 24](https://github.com/StephaneTurquay/metabase-arm64-docker/assets/1861836/cf9e9839-968c-48d0-ad1b-a434762caa64) [Get some dedicated support with ChatGPT!](https://chat.openai.com/g/g-LMMixC7yA-metabase-docker-image-for-apple-silicon-arm64) 🤖  
 
-👋 Hey there! Are you using a MacBook Pro (M1, M2), MacBook Air, Mac Studio, or any other device powered by an ARM64 chip? Have you attempted to launch the official Metabase Docker image on these machines? If that's the case, you've likely stumbled upon poor performances and this warning:
+👋 Hey there! Are you using a MacBook Pro (M1, M2, etc), MacBook Air, Mac Studio, or any other device powered by an ARM64 chip? Have you attempted to launch the official Metabase Docker image on these machines? If that's the case, you've likely stumbled upon poor performances and this warning:
 
 > [!WARNING]
 > _WARNING: The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested_
