@@ -52,14 +52,11 @@ jobs:
           TAG=${{ steps.get_version.outputs.version }}
           IMAGE=stephaneturquay/metabase-arm64
 
-          echo "🔧 Building image with tag $TAG..."
-          docker build --build-arg METABASE_VERSION=$TAG -t $IMAGE:$TAG .
-
-          echo "🚀 Pushing $TAG..."
-          docker push $IMAGE:$TAG
-
-          echo "🏷️ Tagging as latest..."
-          docker tag $IMAGE:$TAG $IMAGE:latest
-
-          echo "🚀 Pushing latest..."
-          docker push $IMAGE:latest
+          echo "🔧 Building and pushing linux/arm64 image for $TAG and latest..."
+          docker buildx build \
+            --platform linux/arm64 \
+            --build-arg METABASE_VERSION=$TAG \
+            --tag $IMAGE:$TAG \
+            --tag $IMAGE:latest \
+            --push \
+            .
